@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'; // Import Link từ react-router-dom
 
 const Header = () => {
     return (
@@ -10,16 +11,30 @@ const Header = () => {
             
             {/* Buttons ở giữa */}
             <div className="flex flex-col md:flex-row md:space-x-4 space-y-2 md:space-y-0">
-                <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">TRANG CHỦ</button>
-                <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">ACC YÊU THÍCH CỦA BẠN</button>
-                <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">TÌM KIẾM ACC</button>
-                <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">HỖ TRỢ</button>
-                <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">NẠP XU</button>
+                <Link to="/" className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
+                    TRANG CHỦ
+                </Link>
+                <Link to="/favorites" className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
+                    ACC YÊU THÍCH CỦA BẠN
+                </Link>
+                <Link to="/search" className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
+                    TÌM KIẾM ACC
+                </Link>
+                <Link to="/support" className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
+                    HỖ TRỢ
+                </Link>
+                <Link to="/recharge" className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
+                    NẠP XU
+                </Link>
             </div>
             
             {/* Button Đăng nhập */}
             <div className="mt-4 md:mt-0">
-                <button className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700">Đăng nhập</button>
+                <Link to="/login">
+                    <button className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700">
+                        Đăng nhập
+                    </button>
+                </Link>
             </div>
         </div>
     );
