@@ -2,6 +2,7 @@ package com.BanAccLQ.BanAccLQ.model;
 
 import jakarta.persistence.*; // Đảm bảo đúng thư viện JPA (jakarta.persistence)
 import java.math.BigDecimal;
+import java.time.LocalDateTime; // Thêm LocalDateTime
 
 @Entity
 @Table(name = "NguoiDung")
@@ -33,13 +34,16 @@ public class NguoiDung {
     @Column(nullable = false)
     private BigDecimal soTienDaSuDung = BigDecimal.ZERO; // Cột mới, lưu số tiền đã sử dụng
 
+    @Column(name = "createAt", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", updatable = false)
+    private LocalDateTime createAt; // Cột thời gian tạo
+
     // Default Constructor
     public NguoiDung() {
     }
 
     // Constructor với tất cả các tham số
     public NguoiDung(Integer id, Boolean admin, String ten, String taiKhoan, String anhDaiDien,
-                     String matKhau, String soDienThoai, BigDecimal soTien, BigDecimal soTienDaSuDung) {
+                     String matKhau, String soDienThoai, BigDecimal soTien, BigDecimal soTienDaSuDung, LocalDateTime createAt) {
         this.id = id;
         this.admin = admin;
         this.ten = ten;
@@ -49,6 +53,7 @@ public class NguoiDung {
         this.soDienThoai = soDienThoai;
         this.soTien = soTien;
         this.soTienDaSuDung = soTienDaSuDung;
+        this.createAt = createAt;
     }
 
     // Getters và Setters
@@ -124,6 +129,14 @@ public class NguoiDung {
         this.soTienDaSuDung = soTienDaSuDung;
     }
 
+    public LocalDateTime getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(LocalDateTime createAt) {
+        this.createAt = createAt;
+    }
+
     @Override
     public String toString() {
         return "NguoiDung{" +
@@ -136,6 +149,7 @@ public class NguoiDung {
                 ", soDienThoai='" + soDienThoai + '\'' +
                 ", soTien=" + soTien +
                 ", soTienDaSuDung=" + soTienDaSuDung +
+                ", createAt=" + createAt +
                 '}';
     }
 }

@@ -1,6 +1,7 @@
 package com.BanAccLQ.BanAccLQ.model;
 
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "AccGame")
@@ -21,7 +22,6 @@ public class AccGame {
     @Column(nullable = false, length = 100)
     private String tenAcc;
 
-
     private Integer soLuongTrangPhuc;
     private Integer soLuongTuong;
     private Integer soLuongTrangPhucSS;
@@ -40,6 +40,10 @@ public class AccGame {
     @ManyToOne
     @JoinColumn(name = "idLoaiAcc")
     private LoaiAccGame loaiAccGame;
+
+    // Mối quan hệ 1-N với AnhAcc
+    @OneToMany(mappedBy = "accGame", cascade = CascadeType.ALL)
+    private List<AnhAcc> anhAccList;
 
     // Enum cho trạng thái tài khoản
     public enum TrangThai {
@@ -86,7 +90,6 @@ public class AccGame {
     public void setTenAcc(String tenAcc) {
         this.tenAcc = tenAcc;
     }
-
 
     public Integer getSoLuongTrangPhuc() {
         return soLuongTrangPhuc;
@@ -160,8 +163,14 @@ public class AccGame {
         this.loaiAccGame = loaiAccGame;
     }
 
+    public List<AnhAcc> getAnhAccList() {
+        return anhAccList;
+    }
+
+    public void setAnhAccList(List<AnhAcc> anhAccList) {
+        this.anhAccList = anhAccList;
+    }
+
     // Constructors
     public AccGame() {}
-
-
 }

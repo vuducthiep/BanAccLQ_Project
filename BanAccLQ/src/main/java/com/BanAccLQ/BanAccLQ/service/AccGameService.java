@@ -2,13 +2,13 @@ package com.BanAccLQ.BanAccLQ.service;
 
 import com.BanAccLQ.BanAccLQ.DTO.TopAccGameDTO;
 import com.BanAccLQ.BanAccLQ.model.AccGame;
+import com.BanAccLQ.BanAccLQ.model.AnhAcc;
 import com.BanAccLQ.BanAccLQ.repository.AccGameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class AccGameService {
@@ -32,4 +32,10 @@ public class AccGameService {
         List<TopAccGameDTO> topAccGames = accGameRepository.findTopAccGameByYeuThich();
         return topAccGames.size() > 5 ? topAccGames.subList(0, 5) : topAccGames;
     }
+
+    public List<AnhAcc> getAnhAccByAccGame(Integer accGameId) {
+        Optional<AccGame> accGame = accGameRepository.findById(accGameId);
+        return accGame.map(AccGame::getAnhAccList).orElse(List.of());
+    }
+
 }

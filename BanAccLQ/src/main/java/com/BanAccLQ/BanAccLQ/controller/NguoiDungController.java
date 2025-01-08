@@ -67,7 +67,11 @@ public class NguoiDungController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Tài khoản hoặc số điện thoại đã tồn tại");
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("Đăng ký thành công");
+        String token = JwtUtil.generateToken(nguoiDung.getTaiKhoan());
+        Map<String, Object> response = new HashMap<>();
+        response.put("token", token);
+        response.put("id", nguoiDung.getId()); // Trả về ID người dùng hoặc thông tin khác nếu cần
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/top-nguoi-dung")

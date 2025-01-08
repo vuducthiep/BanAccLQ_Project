@@ -1,6 +1,7 @@
 
 package com.BanAccLQ.BanAccLQ.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -17,6 +18,7 @@ public class AnhAcc {
     @Column(columnDefinition = "TEXT")
     private String moTa;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "idAccGame", nullable = false)
     private AccGame accGame;

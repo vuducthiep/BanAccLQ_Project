@@ -2,6 +2,7 @@ package com.BanAccLQ.BanAccLQ.controller;
 
 import com.BanAccLQ.BanAccLQ.DTO.TopAccGameDTO;
 import com.BanAccLQ.BanAccLQ.model.AccGame;
+import com.BanAccLQ.BanAccLQ.model.AnhAcc;
 import com.BanAccLQ.BanAccLQ.service.AccGameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +47,12 @@ public class AccGameController {
     @GetMapping("/topAccGame")
     public List<TopAccGameDTO> getTopAccGames() {
         return accGameService.getTopAccGames();
+    }
+
+    @GetMapping("/accGame/{id}/images")
+    public ResponseEntity<List<AnhAcc>> getAnhAccByAccGame(@PathVariable Integer id) {
+        List<AnhAcc> anhAccList = accGameService.getAnhAccByAccGame(id);
+        return ResponseEntity.ok(anhAccList);
     }
 
 }

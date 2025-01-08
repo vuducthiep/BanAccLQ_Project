@@ -19,7 +19,7 @@ const ListAcc = () => {
     };
 
     const handleFavoriteClick = (accId) => {
-        const idNguoiDung = 2; // Lấy id người dùng thực tế (ví dụ: từ session hoặc context)
+        const idNguoiDung = localStorage.getItem('userId'); // Lấy id người dùng
     
         fetch("http://localhost:8080/api/yeuthich", {
             method: "POST",

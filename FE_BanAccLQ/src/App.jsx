@@ -2,8 +2,10 @@ import Header from './components/Header';
 import Banner from './components/Banner';
 import Prominent from './components/Prominent';
 import ListAcc from './components/ListAcc';
+import Profile from './components/Profile'; // Đảm bảo Profile component đã được tạo
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AccDetail from "./components/AccDetail"; // Trang chi tiết tài khoản
+import Footer from './components/Footer';
 
 // Layout cho các trang có đầy đủ Header, Banner, Prominent, và ListAcc
 const MainLayout = ({ children }) => (
@@ -12,6 +14,7 @@ const MainLayout = ({ children }) => (
     <Banner />
     <Prominent />
     {children}
+    <Footer/>
   </div>
 );
 
@@ -32,6 +35,11 @@ function App() {
         
         {/* Trang chi tiết tài khoản với chỉ Header */}
         <Route path="/acc/:id" element={<HeaderOnlyLayout><AccDetail /></HeaderOnlyLayout>} />
+        
+        {/* Trang thông tin cá nhân với Header */}
+        <Route path="/profile" element={<HeaderOnlyLayout><Profile /></HeaderOnlyLayout>} />
+        
+        {/* Thêm các route khác nếu cần */}
       </Routes>
     </Router>
   );
