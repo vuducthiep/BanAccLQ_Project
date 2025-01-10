@@ -47,11 +47,15 @@ const ListAcc = () => {
             setTimeout(() => setNotification(""), 3000);
         });
     };
-    
 
     const handleFavoriteClickWithStopPropagation = (accId, e) => {
         e.stopPropagation();  // Ngừng sự kiện "click" để không chuyển trang
         handleFavoriteClick(accId);
+    };
+
+    const handleBuyClick = (accId, e) => {
+        e.stopPropagation();  // Ngừng sự kiện "click" của div chứa tài khoản
+        navigate(`/thanhtoan/${accId}`); // Chuyển đến trang thanh toán
     };
 
     return (
@@ -64,8 +68,8 @@ const ListAcc = () => {
                         zIndex: 9999,  // Đảm bảo thông báo luôn hiển thị trên cùng
                     }}
                 >
-            {notification}
-        </div>
+                    {notification}
+                </div>
             )}
             <h2 className="text-2xl text-red-600 text-center font-bold mb-4">
                 DANH SÁCH TÀI KHOẢN LIÊN QUÂN
@@ -75,7 +79,7 @@ const ListAcc = () => {
                     <div
                         key={acc.id}
                         className="border bg-slate-300 p-4 rounded shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl"
-                        onClick={() => handleAccClick(acc.id)} // Chuyển trang khi click vào account
+                        onClick={(e) => handleAccClick(acc.id)} // Chuyển trang khi click vào account
                     >
                         <div className="text-center font-bold text-red-500">
                             #{acc.id}
@@ -96,7 +100,10 @@ const ListAcc = () => {
                             })}</p>
                         </div>
                         <div className="flex justify-between">
-                            <button className="bg-blue-500 text-white px-4 py-2 rounded flex items-center hover:bg-blue-600 transition-colors">
+                            <button 
+                                className="bg-blue-500 text-white px-4 py-2 rounded flex items-center hover:bg-blue-600 transition-colors"
+                                onClick={(e) => handleBuyClick(acc.id, e)}  // Chuyển trang thanh toán khi nhấn "Mua ngay"
+                            >
                                 <span className="material-icons mr-2">shopping_cart</span>
                                 Mua ngay
                             </button>

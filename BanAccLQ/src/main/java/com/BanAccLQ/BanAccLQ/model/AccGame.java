@@ -1,6 +1,9 @@
 package com.BanAccLQ.BanAccLQ.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -50,7 +53,31 @@ public class AccGame {
         daBan, chuaBan
     }
 
-    // Getters và Setters
+    // Thêm các thuộc tính tài khoản và mật khẩu
+    @Column(nullable = false, length = 255)
+    private String taiKhoanAcc; // Tài khoản game
+
+    @Column(nullable = false, length = 255)
+    private String matKhauAcc; // Mật khẩu của tài khoản game
+
+    // Getters và Setters cho tài khoản và mật khẩu
+    public String getTaiKhoanAcc() {
+        return taiKhoanAcc;
+    }
+
+    public void setTaiKhoanAcc(String taiKhoanAcc) {
+        this.taiKhoanAcc = taiKhoanAcc;
+    }
+
+    public String getMatKhauAcc() {
+        return matKhauAcc;
+    }
+
+    public void setMatKhauAcc(String matKhauAcc) {
+        this.matKhauAcc = matKhauAcc;
+    }
+
+    // Các getter và setter còn lại
     public Integer getId() {
         return id;
     }
@@ -173,4 +200,16 @@ public class AccGame {
 
     // Constructors
     public AccGame() {}
+
+    @OneToMany(mappedBy = "accGame", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
+    private List<AccYeuThich> accYeuThichList;
+
+    public List<AccYeuThich> getAccYeuThichList() {
+        return accYeuThichList;
+    }
+
+    public void setAccYeuThichList(List<AccYeuThich> accYeuThichList) {
+        this.accYeuThichList = accYeuThichList;
+    }
 }

@@ -1,6 +1,6 @@
 package com.BanAccLQ.BanAccLQ.model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-
 @Entity
 @Table(name = "AccYeuThich")
 public class AccYeuThich {
@@ -11,12 +11,14 @@ public class AccYeuThich {
 
     @ManyToOne
     @JoinColumn(name = "idNguoiDung", nullable = false)
+    @JsonBackReference // Sử dụng JsonBackReference cho thuộc tính này
     private NguoiDung nguoiDung;
 
     @ManyToOne
     @JoinColumn(name = "idAccGame", nullable = false)
     private AccGame accGame;
 
+    // Getters và Setters
     public Integer getId() {
         return id;
     }

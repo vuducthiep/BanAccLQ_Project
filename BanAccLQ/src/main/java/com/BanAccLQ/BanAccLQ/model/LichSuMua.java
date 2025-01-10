@@ -19,8 +19,6 @@ public class LichSuMua {
     @JoinColumn(name = "idAccGame", nullable = false)
     private AccGame accGame;
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime ngayMua;
 
     @Column(name = "createAt", nullable = false, updatable = false)
     private LocalDateTime createAt = LocalDateTime.now();
@@ -50,13 +48,7 @@ public class LichSuMua {
         this.accGame = accGame;
     }
 
-    public LocalDateTime getNgayMua() {
-        return ngayMua;
-    }
 
-    public void setNgayMua(LocalDateTime ngayMua) {
-        this.ngayMua = ngayMua;
-    }
 
     public LocalDateTime getCreateAt() {
         return createAt;

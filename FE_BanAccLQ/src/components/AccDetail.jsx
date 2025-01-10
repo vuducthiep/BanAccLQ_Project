@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";  // Import useNavigate
 
 const AccDetail = () => {
     const { id } = useParams();
     const [accDetails, setAccDetails] = useState(null);
-    const [notification, setNotification] = useState("");  // State để lưu thông báo
+    const [notification, setNotification] = useState("");
+    const navigate = useNavigate();  // Khai báo useNavigate
 
     useEffect(() => {
         fetch(`http://localhost:8080/api/accgame/${id}`)
@@ -46,6 +47,11 @@ const AccDetail = () => {
     const handleFavoriteClickWithStopPropagation = (accId, e) => {
         e.stopPropagation();
         handleFavoriteClick(accId);
+    };
+
+    // Điều hướng đến trang thanh toán khi nhấn "Mua ngay"
+    const handleBuyNow = () => {
+        navigate(`/thanhtoan/${id}`);  // Điều hướng đến trang thanh toán với id tài khoản game
     };
 
     if (!accDetails) {
@@ -147,12 +153,12 @@ const AccDetail = () => {
                 </div>
             </div>
 
-
-
-            {/* Nút Mua ngay và Yêu thích */}
             <div className="flex justify-center gap-4 mt-6">
-                <button className="bg-blue-500 text-white px-4 py-2 rounded flex items-center hover:bg-blue-600 transition-colors">
-                <span className="material-icons mr-2">shopping_cart</span>
+                <button 
+                    className="bg-blue-500 text-white px-4 py-2 rounded flex items-center hover:bg-blue-600 transition-colors"
+                    onClick={handleBuyNow}   
+                >
+                    <span className="material-icons mr-2">shopping_cart</span>
                     Mua ngay
                 </button>
                 <button
@@ -164,7 +170,6 @@ const AccDetail = () => {
                 </button>
             </div>
 
-            {/* Hiển thị thông báo */}
             {notification && (
                 <div className="fixed top-0 right-0 p-4 bg-green-500 text-white rounded-lg shadow-lg">
                     {notification}

@@ -9,6 +9,8 @@ import com.BanAccLQ.BanAccLQ.repository.AccGameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AccYeuThichService {
 
@@ -62,5 +64,7 @@ public class AccYeuThichService {
         // Xóa accgame yêu thích nếu tồn tại
         accYeuThichRepository.deleteByNguoiDungAndAccGame(nguoiDung, accGame);
     }
+
+
 
 }

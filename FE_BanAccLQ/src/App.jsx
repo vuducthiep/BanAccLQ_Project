@@ -6,23 +6,20 @@ import Profile from './components/Profile'; // Đảm bảo Profile component đ
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AccDetail from "./components/AccDetail"; // Trang chi tiết tài khoản
 import Footer from './components/Footer';
+import AccYeuThich from './components/AccYeuThich';
+import NapTien from './components/NapTien';
+import HomePage from './components/HomePage';
+import LichSuMua from './components/LichSuMua';
+import ThanhToan from './components/ThanhToan';
 
-// Layout cho các trang có đầy đủ Header, Banner, Prominent, và ListAcc
-const MainLayout = ({ children }) => (
-  <div>
-    <Header />
-    <Banner />
-    <Prominent />
-    {children}
-    <Footer/>
-  </div>
-);
+
 
 // Layout cho các trang chỉ giữ lại Header
-const HeaderOnlyLayout = ({ children }) => (
+const HeaderFooterLayout = ({ children }) => (
   <div>
     <Header />
     {children}
+    <Footer />
   </div>
 );
 
@@ -31,14 +28,19 @@ function App() {
     <Router>
       <Routes>
         {/* Trang chính với layout đầy đủ */}
-        <Route path="/" element={<MainLayout><ListAcc /></MainLayout>} />
+        <Route path="/" element={<HomePage/>} />
         
         {/* Trang chi tiết tài khoản với chỉ Header */}
-        <Route path="/acc/:id" element={<HeaderOnlyLayout><AccDetail /></HeaderOnlyLayout>} />
+        <Route path="/acc/:id" element={<HeaderFooterLayout><AccDetail /></HeaderFooterLayout>} />
         
         {/* Trang thông tin cá nhân với Header */}
-        <Route path="/profile" element={<HeaderOnlyLayout><Profile /></HeaderOnlyLayout>} />
+        <Route path="/profile" element={<HeaderFooterLayout><Profile /></HeaderFooterLayout>} />
         
+        {/* Trang yêu thích */}
+        <Route path="/favorites" element={<HeaderFooterLayout><AccYeuThich /></HeaderFooterLayout>} />
+        <Route path="/thanhtoan/:accId" element={<HeaderFooterLayout><ThanhToan /></HeaderFooterLayout>} />
+        <Route path="/recharge" element={<HeaderFooterLayout> <NapTien/> </HeaderFooterLayout>}/>
+        <Route path="/history" element={<HeaderFooterLayout> <LichSuMua/> </HeaderFooterLayout>}/>
         {/* Thêm các route khác nếu cần */}
       </Routes>
     </Router>

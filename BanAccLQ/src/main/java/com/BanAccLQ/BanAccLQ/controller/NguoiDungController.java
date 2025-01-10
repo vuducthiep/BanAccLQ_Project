@@ -1,10 +1,12 @@
 package com.BanAccLQ.BanAccLQ.controller;
 
 import com.BanAccLQ.BanAccLQ.DTO.LoginRequestDTO;
+import com.BanAccLQ.BanAccLQ.DTO.NapTienDTO;
 import com.BanAccLQ.BanAccLQ.DTO.RegisterRequestDTO;
 import com.BanAccLQ.BanAccLQ.DTO.TopNguoiDungDTO;
 import com.BanAccLQ.BanAccLQ.Util.HashingUtil;
 import com.BanAccLQ.BanAccLQ.Util.JwtUtil;
+import com.BanAccLQ.BanAccLQ.model.AccGame;
 import com.BanAccLQ.BanAccLQ.model.NguoiDung;
 import com.BanAccLQ.BanAccLQ.service.NguoiDungService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,4 +84,21 @@ public class NguoiDungController {
 
 
     // Các API khác
+    @PostMapping("/nap-tien")
+    public ResponseEntity<String> napTien(@RequestBody NapTienDTO napTienDTO) {
+        String result = nguoiDungService.napTien(napTienDTO);
+        if (result.equals("Người dùng không tồn tại")) {
+            return ResponseEntity.badRequest().body(result);
+        }
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/{id}/accgames")
+    public ResponseEntity<List<AccGame>> getAccGamesFromLichSuMua(@PathVariable Integer id) {
+        List<AccGame> accGames = nguoiDungService.getAllAccGamesFromLichSuMua(id);
+        if (accGames.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(accGames);
+    }
 }

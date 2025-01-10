@@ -1,8 +1,10 @@
 package com.BanAccLQ.BanAccLQ.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*; // Đảm bảo đúng thư viện JPA (jakarta.persistence)
 import java.math.BigDecimal;
 import java.time.LocalDateTime; // Thêm LocalDateTime
+import java.util.List;
 
 @Entity
 @Table(name = "NguoiDung")
@@ -35,10 +37,27 @@ public class NguoiDung {
     private BigDecimal soTienDaSuDung = BigDecimal.ZERO; // Cột mới, lưu số tiền đã sử dụng
 
     @Column(name = "createAt", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", updatable = false)
-    private LocalDateTime createAt; // Cột thời gian tạo
+    private LocalDateTime createAt = LocalDateTime.now(); // Đặt mặc định trong mã Java
+
+    @OneToMany(mappedBy = "nguoiDung", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<LichSuMua> lichSuMuaList;
 
     // Default Constructor
     public NguoiDung() {
+    }
+
+    @OneToMany(mappedBy = "nguoiDung", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<AccYeuThich> accYeuThichList;
+
+    // Getters và Setters
+    @OneToMany(mappedBy = "nguoiDung", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference // Sử dụng JsonManagedReference cho thuộc tính này
+    public List<AccYeuThich> getAccYeuThichList() {
+        return accYeuThichList;
+    }
+
+    public void setAccYeuThichList(List<AccYeuThich> accYeuThichList) {
+        this.accYeuThichList = accYeuThichList;
     }
 
     // Constructor với tất cả các tham số

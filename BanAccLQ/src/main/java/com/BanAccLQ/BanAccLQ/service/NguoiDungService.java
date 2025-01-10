@@ -1,19 +1,34 @@
 package com.BanAccLQ.BanAccLQ.service;
 
+import com.BanAccLQ.BanAccLQ.DTO.NapTienDTO;
 import com.BanAccLQ.BanAccLQ.DTO.TopNguoiDungDTO;
 import com.BanAccLQ.BanAccLQ.Util.HashingUtil;
+import com.BanAccLQ.BanAccLQ.model.AccGame;
+import com.BanAccLQ.BanAccLQ.model.LichSuMua;
 import com.BanAccLQ.BanAccLQ.model.NguoiDung;
+import com.BanAccLQ.BanAccLQ.repository.AccYeuThichRepository;
+import com.BanAccLQ.BanAccLQ.repository.LichSuMuaRepository;
 import com.BanAccLQ.BanAccLQ.repository.NguoiDungRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class NguoiDungService {
 
     @Autowired
     private NguoiDungRepository nguoiDungRepository;
+
+    @Autowired
+    private AccYeuThichRepository accYeuThichRepository;
+
+    @Autowired
+    private LichSuMuaRepository lichSuMuaRepository;
 
     public NguoiDung getNguoiDungById(Integer id) {
         return nguoiDungRepository.findById(id).orElse(null);
@@ -61,5 +76,40 @@ public class NguoiDungService {
     }
 
 
-    // Các phương thức xử lý nghiệp vụ khác
+    public String napTien(NapTienDTO napTienDTO) {
+        Optional<NguoiDung> optionalNguoiDung = nguoiDungRepository.findById(napTienDTO.getId());
+
+        if (!optionalNguoiDung.isPresent()) {
+            return "Người dùng không tồn tại";
+        }
+
+        NguoiDung nguoiDung = optionalNguoiDung.get();
+        BigDecimal soTienMoi = nguoiDung.getSoTien().add(napTienDTO.getSoTien());
+        nguoiDung.setSoTien(soTienMoi);
+        nguoiDungRepository.save(nguoiDung);
+
+        return "Nạp tiền thành công";
+    }
+
+    // Lấy danh sách tài khoản game yêu thích của người dùng
+    public List<AccGame> getFavoriteGames(Integer userId) {
+        NguoiDung nguoiDung = nguoiDungRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Người dùng không tồn tại"));
+
+        // Lấy danh sách tài khoản game yêu thích của người dùng
+        return accYeuThichRepository.findByNguoiDung(nguoiDung).stream()
+                .map(accYeuThich -> accYeuThich.getAccGame())
+                .collect(Collectors.toList());
+    }
+
+    public List<AccGame> getAllAccGamesFromLichSuMua(Integer nguoiDungId) {
+        List<LichSuMua> lichSuMuaList = lichSuMuaRepository.findByNguoiDungId(nguoiDungId);
+        List<AccGame> accGames = new ArrayList<>();
+
+        for (LichSuMua lichSuMua : lichSuMuaList) {
+            accGames.add(lichSuMua.getAccGame());
+        }
+
+        return accGames;
+    }
 }

@@ -22,7 +22,8 @@ const Header = () => {
             const response = await fetch(`http://localhost:8080/api/nguoidung/${userId}`);
             const data = await response.json();
             if (response.ok) {
-                setAvatar(data.anhDaiDien); // Lưu avatar vào state
+                console.log("Received Avatar URL:", data.anhDaiDien); // Kiểm tra dữ liệu
+                setAvatar(data.anhDaiDien); // Cập nhật avatar
             } else {
                 console.error('Lỗi khi lấy thông tin người dùng');
             }
@@ -30,6 +31,7 @@ const Header = () => {
             console.error('Lỗi kết nối API:', error);
         }
     };
+    
 
     const handleLoginClick = () => {
         setShowModal(true); // Hiện modal khi nhấn nút đăng nhập
@@ -64,8 +66,8 @@ const Header = () => {
                 <Link to="/search" className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
                     TÌM KIẾM ACC
                 </Link>
-                <Link to="/support" className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
-                    HỖ TRỢ
+                <Link to="/history" className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
+                    LỊCH SỬ MUA
                 </Link>
                 <Link to="/recharge" className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
                     NẠP XU
