@@ -5,13 +5,11 @@ const Prominent = () => {
   const [list2, setList2] = useState([]);
 
   useEffect(() => {
-    // Gọi API đầu tiên
     fetch("http://localhost:8080/api/nguoidung/top-nguoi-dung")
       .then((response) => response.json())
       .then((data) => setList1(data))
       .catch((error) => console.error("Error fetching list1:", error));
 
-    // Gọi API thứ hai
     fetch("http://localhost:8080/api/accgame/topAccGame")
       .then((response) => response.json())
       .then((data) => setList2(data))
@@ -19,9 +17,9 @@ const Prominent = () => {
   }, []);
 
   return (
-    <div className="flex p-6">
+    <div className="flex flex-col md:flex-row p-6">
       {/* Danh sách 1 */}
-      <div className="w-1/2 pr-4">
+      <div className="w-full md:w-1/2 md:pr-4 mb-6 md:mb-0">
         <h2 className="text-2xl text-red-600 text-center font-bold mb-4">TOP KHÁCH HÀNG CHI TIÊU NHIỀU NHẤT</h2>
         <table className="min-w-full bg-slate-600 font-bold shadow-lg rounded-lg border-collapse">
           <thead>
@@ -49,7 +47,7 @@ const Prominent = () => {
       </div>
 
       {/* Danh sách 2 */}
-      <div className="w-1/2 pl-4">
+      <div className="w-full md:w-1/2 md:pl-4">
         <h2 className="text-2xl text-red-600 text-center font-bold mb-4">TOP ACC ĐƯỢC YÊU THÍCH NHIỀU NHẤT</h2>
         <table className="min-w-full bg-slate-600 font-bold shadow-lg rounded-lg border-collapse">
           <thead>

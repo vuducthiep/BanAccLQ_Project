@@ -2,6 +2,7 @@ package com.BanAccLQ.BanAccLQ.service;
 
 import com.BanAccLQ.BanAccLQ.DTO.NapTienDTO;
 import com.BanAccLQ.BanAccLQ.DTO.TopNguoiDungDTO;
+import com.BanAccLQ.BanAccLQ.DTO.UpdateNguoiDungDTO_NguoiDung;
 import com.BanAccLQ.BanAccLQ.Util.HashingUtil;
 import com.BanAccLQ.BanAccLQ.model.AccGame;
 import com.BanAccLQ.BanAccLQ.model.LichSuMua;
@@ -16,6 +17,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -112,4 +114,38 @@ public class NguoiDungService {
 
         return accGames;
     }
+
+    public NguoiDung updateUserInfo(Integer id, UpdateNguoiDungDTO_NguoiDung updateNguoiDungDTO) {
+        // Kiểm tra thông tin đầu vào
+        if (updateNguoiDungDTO.getTen() == null || updateNguoiDungDTO.getTen().trim().isEmpty()) {
+            throw new RuntimeException("Tên không được để trống");
+        }
+
+        if (updateNguoiDungDTO.getMatKhau() == null || updateNguoiDungDTO.getMatKhau().trim().isEmpty()) {
+            throw new RuntimeException("Mật khẩu không được để trống");
+        }
+
+        if (updateNguoiDungDTO.getSoDienThoai() == null || updateNguoiDungDTO.getSoDienThoai().trim().isEmpty()) {
+            throw new RuntimeException("Số điện thoại không được để trống");
+        }
+
+        // Kiểm tra số điện thoại có hợp lệ hay không
+        String phoneRegex = "^(\\+84|0)[0-9]{9}$";
+        if (!Pattern.matches(phoneRegex, updateNguoiDungDTO.getSoDienThoai())) {
+            throw new RuntimeException("Số điện thoại không hợp lệ");
+        }
+
+        // Tìm người dùng theo ID
+        NguoiDung nguoiDung = nguoiDungRepository.findById(id).orElseThrow(() -> new RuntimeException("Người dùng không tồn tại"));
+
+        // Cập nhật thông tin
+        nguoiDung.setTen(updateNguoiDungDTO.getTen());
+        String hashedPassword = HashingUtil.hashPassword(updateNguoiDungDTO.getMatKhau());
+        nguoiDung.setMatKhau(hashedPassword);
+        nguoiDung.setSoDienThoai(updateNguoiDungDTO.getSoDienThoai());
+
+        // Lưu thông tin người dùng đã cập nhật
+        return nguoiDungRepository.save(nguoiDung);
+    }
+
 }

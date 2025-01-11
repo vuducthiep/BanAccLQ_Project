@@ -1,13 +1,11 @@
 package com.BanAccLQ.BanAccLQ.controller;
 
-import com.BanAccLQ.BanAccLQ.DTO.LoginRequestDTO;
-import com.BanAccLQ.BanAccLQ.DTO.NapTienDTO;
-import com.BanAccLQ.BanAccLQ.DTO.RegisterRequestDTO;
-import com.BanAccLQ.BanAccLQ.DTO.TopNguoiDungDTO;
+import com.BanAccLQ.BanAccLQ.DTO.*;
 import com.BanAccLQ.BanAccLQ.Util.HashingUtil;
 import com.BanAccLQ.BanAccLQ.Util.JwtUtil;
 import com.BanAccLQ.BanAccLQ.model.AccGame;
 import com.BanAccLQ.BanAccLQ.model.NguoiDung;
+import com.BanAccLQ.BanAccLQ.responseMessage.ResponseMessage;
 import com.BanAccLQ.BanAccLQ.service.NguoiDungService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -101,4 +99,20 @@ public class NguoiDungController {
         }
         return ResponseEntity.ok(accGames);
     }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateUser(@RequestBody UpdateNguoiDungDTO_NguoiDung updateNguoiDungDTO) {
+        try {
+            // Gọi service để cập nhật thông tin người dùng, id đã có trong body
+            nguoiDungService.updateUserInfo(updateNguoiDungDTO.getId(), updateNguoiDungDTO);
+
+            // Trả về thông báo thành công dưới dạng JSON
+            return ResponseEntity.ok().body(new ResponseMessage("Cập nhật thông tin người dùng thành công"));
+        } catch (RuntimeException ex) {
+            // Trả về lỗi dưới dạng JSON
+            return ResponseEntity.badRequest().body(new ResponseMessage("Cập nhật thất bại, vui lòng thử lại sau."));
+        }
+    }
+
+
 }

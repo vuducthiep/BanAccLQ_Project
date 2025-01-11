@@ -10,6 +10,7 @@ import AccYeuThich from './components/AccYeuThich';
 import NapTien from './components/NapTien';
 import HomePage from './components/HomePage';
 import LichSuMua from './components/LichSuMua';
+import Search from './components/Search';
 import ThanhToan from './components/ThanhToan';
 
 
@@ -41,6 +42,7 @@ function App() {
         <Route path="/thanhtoan/:accId" element={<HeaderFooterLayout><ThanhToan /></HeaderFooterLayout>} />
         <Route path="/recharge" element={<HeaderFooterLayout> <NapTien/> </HeaderFooterLayout>}/>
         <Route path="/history" element={<HeaderFooterLayout> <LichSuMua/> </HeaderFooterLayout>}/>
+        <Route path="/search" element={<HeaderFooterLayout> <Search/> </HeaderFooterLayout>}/>
         {/* Thêm các route khác nếu cần */}
       </Routes>
     </Router>

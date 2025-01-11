@@ -8,6 +8,7 @@ const AccDetail = () => {
     const navigate = useNavigate();  // Khai báo useNavigate
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         fetch(`http://localhost:8080/api/accgame/${id}`)
             .then((response) => response.json())
             .then((data) => setAccDetails(data))

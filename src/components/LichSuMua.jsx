@@ -7,6 +7,8 @@ const LichSuMua = () => {
     const [expanded, setExpanded] = useState(null);  // Trạng thái cho ảnh chi tiết
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+
         fetch(`http://localhost:8080/api/nguoidung/${idNguoiDung}/accgames`)
             .then((response) => response.json())
             .then((data) => setLichSuMua(data))
@@ -22,7 +24,7 @@ const LichSuMua = () => {
     };
 
     if (lichSuMua.length === 0) {
-        return <p>Không có lịch sử mua hàng.</p>;
+        return <p className="text-center mt-6">Không có lịch sử mua hàng.</p>;
     }
 
     return (
@@ -34,13 +36,13 @@ const LichSuMua = () => {
             {lichSuMua.map((acc) => (
                 <div key={acc.id} className="bg-white p-4 rounded-lg shadow-md mb-6 transition-all duration-300">
                     <h3 className="text-xl font-semibold">{acc.tenAcc}</h3>
-                    <div className="flex space-x-4">
+                    <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
                         <img
                             src={acc.hinhAnhDaiDien}
                             alt={acc.tenAcc}
-                            className="border-spacing-3 object-cover rounded-lg hover:scale-110 transition-all duration-300"
+                            className="w-full md:w-1/3 object-cover rounded-lg hover:scale-110 transition-all duration-300"
                         />
-                        <div className="flex-1 ml-24">
+                        <div className="flex-1">
                             <div><strong>Mô tả:</strong> {acc.moTa}</div>
                             <div><strong>Giá:</strong> {acc.gia.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}</div>
                             <div><strong>Rank:</strong> {acc.rankAcc}</div>
@@ -53,7 +55,7 @@ const LichSuMua = () => {
 
                     <div className="mt-4">
                         <button
-                            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors hover:shadow-lg"
+                            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors hover:shadow-lg w-full md:w-auto"
                             onClick={() => toggleImageDetails(acc.id)}
                         >
                             Xem chi tiết ảnh
@@ -66,7 +68,7 @@ const LichSuMua = () => {
                                             src={anh.urlAnh}
                                             alt={anh.moTa || "Ảnh chi tiết"}
                                             className="w-full h-auto rounded-lg shadow-lg"
-                                            style={{ width: '600px', height: '400px', objectFit: 'cover' }}
+                                            style={{ maxHeight: '400px', objectFit: 'cover' }}
                                         />
                                     </div>
                                 ))}

@@ -9,6 +9,8 @@ const AccYeuThich = () => {
     const navigate = useNavigate(); // Khai báo useNavigate
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+
         // Lấy id người dùng từ localStorage
         const idNguoiDung = localStorage.getItem("userId");
 
@@ -113,7 +115,7 @@ const AccYeuThich = () => {
             <h2 className="text-2xl text-red-600 text-center font-bold mb-4">
                 DANH SÁCH TÀI KHOẢN YÊU THÍCH
             </h2>
-            <div className="grid grid-cols-4 gap-4 p-4">
+            <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-1 md:grid-cols-4">
                 {accGames.map((acc) => (
                     <div
                         key={acc.id}

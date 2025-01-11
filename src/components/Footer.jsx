@@ -21,9 +21,7 @@ const Footer = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="flex-grow">
-        {/* Nội dung chính của trang */}
-      </div>
+      
 
       <footer
         id="footer"
