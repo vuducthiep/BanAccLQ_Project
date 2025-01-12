@@ -43,9 +43,8 @@ const Header = () => {
 
     return (
         <div className="relative">
-            {/* Avatar cố định ở góc trên bên phải cho màn hình nhỏ */}
             {userId && (
-                <div className="absolute top-2 right-14 md:hidden z-10"> {/* Adjust right position to create space */}
+                <div className="absolute top-2 right-14 md:hidden z-10">
                     <img
                         src={avatar || 'https://cellphones.com.vn/sforum/wp-content/uploads/2023/10/avatar-trang-4.jpg'}
                         alt="Avatar"
@@ -56,14 +55,16 @@ const Header = () => {
                         <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md z-20">
                             <Link
                                 to="/profile"
-                                className="block px-4 py-2 text-gray-700 hover:bg-gray-200"
+                                className="block px-4 py-2 text-gray-700 hover:bg-gray-200 flex items-center"
                             >
+                                <span className="material-icons mr-2">person</span>
                                 Thông tin cá nhân
                             </Link>
                             <button
                                 onClick={handleLogout}
-                                className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-200"
+                                className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-200 flex items-center"
                             >
+                                <span className="material-icons mr-2">logout</span>
                                 Đăng xuất
                             </button>
                         </div>
@@ -72,8 +73,6 @@ const Header = () => {
             )}
 
             <div className="flex flex-col md:flex-row items-center justify-between p-4 bg-gray-100" style={{ backgroundImage: 'url(https://quatangcaominh.com/wp-content/uploads/2023/12/y-nghia-nam-con-rong-1.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
-
-                {/* Logo */}
                 <div className="flex items-center mb-4 md:mb-0 w-full md:w-auto justify-between">
                     <img src="https://lienquanshop.vn/Data/upload/images/Adv/logo.png" alt="Logo" className="h-12" />
                     <button className="md:hidden text-gray-600 focus:outline-none z-10" onClick={toggleMenu}>
@@ -81,26 +80,29 @@ const Header = () => {
                     </button>
                 </div>
 
-                {/* Hamburger menu */}
                 <div className={`flex-col md:flex md:flex-row md:items-center md:space-x-4 ${showMenu ? 'flex' : 'hidden'}`}>
-                    <Link to="/" className="px-4 py-2 bg-blue-500 text-center text-white rounded hover:bg-blue-700">
+                    <Link to="/" className="px-4 py-2 bg-blue-500 text-center text-white rounded hover:bg-blue-700 flex items-center">
+                        <span className="material-icons mr-2">home</span>
                         TRANG CHỦ
                     </Link>
-                    <Link to="/favorites" className="px-4 py-2 bg-blue-500 text-center text-white rounded hover:bg-blue-700">
+                    <Link to="/favorites" className="px-4 py-2 bg-blue-500 text-center text-white rounded hover:bg-blue-700 flex items-center">
+                        <span className="material-icons mr-2">favorite</span>
                         ACC YÊU THÍCH CỦA BẠN
                     </Link>
-                    <Link to="/search" className="px-4 py-2 bg-blue-500 text-center text-white rounded hover:bg-blue-700">
+                    <Link to="/search" className="px-4 py-2 bg-blue-500 text-center text-white rounded hover:bg-blue-700 flex items-center">
+                        <span className="material-icons mr-2">search</span>
                         TÌM KIẾM ACC
                     </Link>
-                    <Link to="/history" className="px-4 py-2 bg-blue-500 text-center text-white rounded hover:bg-blue-700">
+                    <Link to="/history" className="px-4 py-2 bg-blue-500 text-center text-white rounded hover:bg-blue-700 flex items-center">
+                        <span className="material-icons mr-2">history</span>
                         LỊCH SỬ MUA
                     </Link>
-                    <Link to="/recharge" className="px-4 py-2 bg-blue-500 text-center text-white rounded hover:bg-blue-700">
+                    <Link to="/recharge" className="px-4 py-2 bg-blue-500 text-center text-white rounded hover:bg-blue-700 flex items-center">
+                        <span className="material-icons mr-2">account_balance_wallet</span>
                         NẠP XU
                     </Link>
                 </div>
 
-                {/* Đăng nhập */}
                 <div className="mt-4 md:mt-0 w-36 hidden md:block">
                     {userId ? (
                         <div className="relative">
@@ -114,14 +116,16 @@ const Header = () => {
                                 <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md">
                                     <Link
                                         to="/profile"
-                                        className="block px-4 py-2 text-gray-700 hover:bg-gray-200"
+                                        className="block px-4 py-2 text-gray-700 hover:bg-gray-200 flex items-center"
                                     >
+                                        <span className="material-icons mr-2">person</span>
                                         Thông tin cá nhân
                                     </Link>
                                     <button
                                         onClick={handleLogout}
-                                        className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-200"
+                                        className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-200 flex items-center"
                                     >
+                                        <span className="material-icons mr-2">logout</span>
                                         Đăng xuất
                                     </button>
                                 </div>
@@ -130,8 +134,9 @@ const Header = () => {
                     ) : (
                         <button
                             onClick={handleLoginClick}
-                            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700"
+                            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700 flex items-center"
                         >
+                            <span className="material-icons mr-2">login</span>
                             Đăng nhập
                         </button>
                     )}

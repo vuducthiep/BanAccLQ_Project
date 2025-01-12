@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*; // Đảm bảo đúng thư viện JPA (jakarta.persistence)
 import java.math.BigDecimal;
 import java.time.LocalDateTime; // Thêm LocalDateTime
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -55,6 +56,9 @@ public class NguoiDung {
     public List<AccYeuThich> getAccYeuThichList() {
         return accYeuThichList;
     }
+
+    @OneToMany(mappedBy = "nguoiDung", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BinhLuan> binhLuans = new ArrayList<>();
 
     public void setAccYeuThichList(List<AccYeuThich> accYeuThichList) {
         this.accYeuThichList = accYeuThichList;

@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";  // Import useNavigate
+import { useParams, useNavigate } from "react-router-dom";
 
 const AccDetail = () => {
     const { id } = useParams();
     const [accDetails, setAccDetails] = useState(null);
     const [notification, setNotification] = useState("");
-    const navigate = useNavigate();  // Khai báo useNavigate
+    const [comments, setComments] = useState([]); // Thêm state cho comments
+    const [loadingComments, setLoadingComments] = useState(true); // Thêm state cho loading
+    const [newComment, setNewComment] = useState(""); // Thêm state cho bình luận mới
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -13,10 +17,22 @@ const AccDetail = () => {
             .then((response) => response.json())
             .then((data) => setAccDetails(data))
             .catch((error) => console.error("Error fetching details:", error));
+
+        // Fetch bình luận cho accgame với id
+        fetch(`http://localhost:8080/api/binhluan/accgame/${id}`)
+            .then((response) => response.json())
+            .then((data) => {
+                setComments(data);
+                setLoadingComments(false);
+            })
+            .catch((error) => {
+                console.error("Error fetching comments:", error);
+                setLoadingComments(false);
+            });
     }, [id]);
 
     const handleFavoriteClick = (accId) => {
-        const idNguoiDung = localStorage.getItem('userId'); // Lấy id người dùng
+        const idNguoiDung = localStorage.getItem('userId');
 
         fetch("http://localhost:8080/api/yeuthich", {
             method: "POST",
@@ -50,14 +66,66 @@ const AccDetail = () => {
         handleFavoriteClick(accId);
     };
 
-    // Điều hướng đến trang thanh toán khi nhấn "Mua ngay"
     const handleBuyNow = () => {
-        navigate(`/thanhtoan/${id}`);  // Điều hướng đến trang thanh toán với id tài khoản game
+        navigate(`/thanhtoan/${id}`);
     };
 
     if (!accDetails) {
         return <p>Loading...</p>;
     }
+
+    const handleAddComment = () => {
+        const idNguoiDung = localStorage.getItem('userId'); // Lấy id người dùng từ localStorage
+        
+        fetch("http://localhost:8080/api/binhluan/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                idAccGame: id,
+                idNguoiDung: idNguoiDung,
+                noiDung: newComment, // Gửi nội dung bình luận mới
+            }),
+        })
+            .then((response) => response.text()) // Chuyển đổi phản hồi thành text (success message)
+            .then((data) => {
+                if (data === "success") {
+                    setNewComment(""); // Reset giá trị input
+                    
+                    // Fetch lại danh sách bình luận mới từ server
+                    fetchComments();
+                    
+                    setNotification("Đã thêm bình luận");
+                    setTimeout(() => setNotification(""), 3000);
+                } else {
+                    setNotification("Đã có lỗi xảy ra, vui lòng thử lại!");
+                    setTimeout(() => setNotification(""), 3000);
+                }
+            })
+            .catch((error) => {
+                setNotification("Đã có lỗi xảy ra, vui lòng thử lại!");
+                setTimeout(() => setNotification(""), 3000);
+            });
+    };
+    
+    // Hàm fetch bình luận
+    const fetchComments = () => {
+        setLoadingComments(true); // Đánh dấu đang tải bình luận mới
+    
+        fetch(`http://localhost:8080/api/binhluan/accgame/${id}`)
+            .then((response) => response.json())
+            .then((data) => {
+                setComments(data); // Cập nhật danh sách bình luận mới
+                setLoadingComments(false); // Kết thúc trạng thái loading
+            })
+            .catch((error) => {
+                console.error("Error fetching comments:", error);
+                setLoadingComments(false); // Kết thúc trạng thái loading
+            });
+    };
+    
+    
 
     return (
         <div className="container mx-auto p-4">
@@ -176,6 +244,57 @@ const AccDetail = () => {
                     {notification}
                 </div>
             )}
+
+            <div className="mt-8 bg-gray-100 p-4 rounded-lg shadow-md">
+                <h3 className="text-2xl font-semibold mb-4">Bình luận</h3>
+                {loadingComments ? (
+                    <p>Đang tải bình luận...</p>
+                ) : (
+                    <div>
+                        {comments.length > 0 ? (
+                            comments.map((comment) => (
+                                <div key={comment.id} className="mb-4 p-4 border-b border-gray-300">
+                                    <div className="flex items-start">
+                                        <img 
+                                            src={comment.anhDaiDien || 'https://cellphones.com.vn/sforum/wp-content/uploads/2023/10/avatar-trang-4.jpg'} 
+                                            alt={comment.ten} 
+                                            className="w-12 h-12 rounded-full mr-4" 
+                                        />
+                                        <div className="flex flex-col">
+                                            <span className="font-semibold text-lg">
+                                                {comment.ten} {comment.admin && <span className="text-blue-500">(Admin)</span>}
+                                            </span>
+                                            <span className="text-sm text-gray-500">
+                                                {new Date(comment.ngayBinhLuan).toLocaleString()}
+                                            </span>
+                                            <p className="mt-2">{comment.noiDung}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <p>Chưa có bình luận nào.</p>
+                        )}
+                    </div>
+                )}
+
+                <div className="mt-6">
+                    <textarea 
+                        value={newComment} // (cmt) Bind giá trị mới từ state
+                        onChange={(e) => setNewComment(e.target.value)} // (cmt) Cập nhật giá trị mới khi thay đổi
+                        rows="4"
+                        className="w-full p-2 border border-gray-300 rounded-lg"
+                        placeholder="Viết bình luận của bạn..."
+                    />
+                    <button 
+                        onClick={handleAddComment} // (cmt) Gọi hàm thêm bình luận khi bấm nút
+                        className="mt-2 bg-blue-500 text-white px-4 py-2 rounded-lg"
+                    >
+                        Thêm bình luận
+                    </button>
+                </div>
+
+            </div>
         </div>
     );
 };

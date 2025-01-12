@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -47,6 +48,9 @@ public class AccGame {
     // Mối quan hệ 1-N với AnhAcc
     @OneToMany(mappedBy = "accGame", cascade = CascadeType.ALL)
     private List<AnhAcc> anhAccList;
+
+    @OneToMany(mappedBy = "accGame", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BinhLuan> binhLuans = new ArrayList<>();
 
     // Enum cho trạng thái tài khoản
     public enum TrangThai {
