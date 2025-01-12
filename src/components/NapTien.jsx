@@ -3,6 +3,7 @@ import React, { useState } from "react";
 const NapTien = () => {
   const [amount, setAmount] = useState(""); // Số tiền nhập vào
   const [qrCodeImage, setQrCodeImage] = useState(""); // Hình ảnh QR
+  const [notification, setNotification] = useState(""); // Thêm state cho thông báo
 
   // Xử lý khi người dùng nhập số tiền
   const handleAmountChange = (e) => {
@@ -15,7 +16,8 @@ const NapTien = () => {
     if (parseFloat(amount) > 0) {
       generateQRCode(amount); // Tạo mã QR khi có số tiền hợp lệ
     } else {
-      alert("Vui lòng nhập số tiền hợp lệ.");
+      setNotification("Vui lòng nhập số tiền hợp lệ.");
+      setTimeout(() => setNotification(""), 3000);
     }
   };
 
@@ -25,21 +27,20 @@ const NapTien = () => {
     setQrCodeImage(qrUrl);
   };
 
-  // Xử lý khi nhấn nút "Xác nhận đã nạp"
-  // Xử lý khi nhấn nút "Xác nhận đã nạp"
-const handleConfirmPayment = () => {
+  const handleConfirmPayment = () => {
     const userId = localStorage.getItem("userId");
-  
+
     if (!userId) {
-      alert("Không tìm thấy userId trong localStorage.");
+      setNotification("Không tìm thấy userId trong localStorage.");
+      setTimeout(() => setNotification(""), 3000);
       return;
     }
-  
+
     const requestBody = {
       id: userId,
       soTien: amount,
     };
-  
+
     fetch("http://localhost:8080/api/nguoidung/nap-tien", {
       method: "POST",
       headers: {
@@ -50,21 +51,35 @@ const handleConfirmPayment = () => {
       .then((response) => response.text()) // Đọc dữ liệu dưới dạng text
       .then((data) => {
         if (data === "Nạp tiền thành công") {
-          alert(data); // Hiển thị thông báo nếu phản hồi là "Nạp tiền thành công"
+          setNotification("Nạp thành công");
+          setTimeout(() => setNotification(""), 3000);
         } else {
-          alert("Có lỗi xảy ra: " + data); // Nếu có lỗi, hiển thị thông báo lỗi
+          setNotification("Có lỗi xảy ra");
+          setTimeout(() => setNotification(""), 3000);
         }
       })
       .catch((error) => {
-        alert("Có lỗi xảy ra khi nạp tiền: " + error.message);
-        console.error("There was an error:", error);
+        setNotification("Có lỗi xảy ra");
+        setTimeout(() => setNotification(""), 3000);
       });
   };
-  
 
   return (
+
     <div className="max-w-2xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+      {/* Hiển thị thông báo */}
+      {notification && (
+        <div className="fixed top-0 right-0 p-4 bg-green-500 text-white rounded-lg shadow-lg">
+          {notification}
+        </div>
+      )}
       <h2 className="text-2xl font-bold text-center mb-4">Trang Nạp Tiền</h2>
+
+      {notification && (
+        <div className="mb-4 p-3 bg-blue-100 text-blue-700 rounded-lg">
+          {notification}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="mb-4">
         <label htmlFor="amount" className="block text-lg mb-2 text-gray-700">

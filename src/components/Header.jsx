@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import LoginModal from './LoginModal';
 
@@ -9,12 +9,31 @@ const Header = () => {
     const [showDropdown, setShowDropdown] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
 
+    const dropdownRef = useRef(null); // Tham chiếu đến dropdown menu
+    const avatarRef = useRef(null); // Tham chiếu đến avatar
+
     useEffect(() => {
         const storedUserId = localStorage.getItem('userId');
         if (storedUserId) {
             setUserId(storedUserId);
             fetchUserData(storedUserId);
         }
+
+        // Sự kiện lắng nghe click bên ngoài
+        const handleClickOutside = (event) => {
+            if (
+                avatarRef.current && !avatarRef.current.contains(event.target) &&
+                dropdownRef.current && !dropdownRef.current.contains(event.target)
+            ) {
+                setShowDropdown(false); // Ẩn dropdown khi click ngoài
+            }
+        };
+
+        document.addEventListener('click', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
     }, []);
 
     const fetchUserData = async (userId) => {
@@ -37,6 +56,11 @@ const Header = () => {
         localStorage.removeItem('userId');
         setUserId(null);
         setAvatar(null);
+        setShowDropdown(false); // Ẩn dropdown khi đăng xuất
+    };
+
+    const handleProfileClick = () => {
+        setShowDropdown(false); // Ẩn dropdown khi nhấn vào thông tin cá nhân
     };
 
     const toggleMenu = () => setShowMenu(!showMenu);
@@ -46,22 +70,27 @@ const Header = () => {
             {userId && (
                 <div className="absolute top-2 right-14 md:hidden z-10">
                     <img
+                        ref={avatarRef} // Gắn ref vào avatar
                         src={avatar || 'https://cellphones.com.vn/sforum/wp-content/uploads/2023/10/avatar-trang-4.jpg'}
                         alt="Avatar"
                         className="h-10 w-10 rounded-full cursor-pointer"
                         onClick={() => setShowDropdown(!showDropdown)}
                     />
                     {showDropdown && (
-                        <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md z-20">
+                        <div
+                            ref={dropdownRef} // Gắn ref vào dropdown menu
+                            className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md z-20"
+                        >
                             <Link
                                 to="/profile"
+                                onClick={handleProfileClick} // Ẩn dropdown khi nhấn vào thông tin cá nhân
                                 className="block px-4 py-2 text-gray-700 hover:bg-gray-200 flex items-center"
                             >
                                 <span className="material-icons mr-2">person</span>
                                 Thông tin cá nhân
                             </Link>
                             <button
-                                onClick={handleLogout}
+                                onClick={handleLogout} // Ẩn dropdown khi đăng xuất
                                 className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-200 flex items-center"
                             >
                                 <span className="material-icons mr-2">logout</span>
@@ -107,22 +136,27 @@ const Header = () => {
                     {userId ? (
                         <div className="relative">
                             <img
+                                ref={avatarRef} // Gắn ref vào avatar
                                 src={avatar || 'https://cellphones.com.vn/sforum/wp-content/uploads/2023/10/avatar-trang-4.jpg'}
                                 alt="Avatar"
                                 className="h-14 w-14 rounded-full cursor-pointer"
                                 onClick={() => setShowDropdown(!showDropdown)}
                             />
                             {showDropdown && (
-                                <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md">
+                                <div
+                                    ref={dropdownRef} // Gắn ref vào dropdown menu
+                                    className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md"
+                                >
                                     <Link
                                         to="/profile"
+                                        onClick={handleProfileClick} // Ẩn dropdown khi nhấn vào thông tin cá nhân
                                         className="block px-4 py-2 text-gray-700 hover:bg-gray-200 flex items-center"
                                     >
                                         <span className="material-icons mr-2">person</span>
                                         Thông tin cá nhân
                                     </Link>
                                     <button
-                                        onClick={handleLogout}
+                                        onClick={handleLogout} // Ẩn dropdown khi đăng xuất
                                         className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-200 flex items-center"
                                     >
                                         <span className="material-icons mr-2">logout</span>
