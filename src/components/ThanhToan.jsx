@@ -166,12 +166,22 @@ const ThanhToan = () => {
                         <p><strong>Mật Khẩu:</strong> {modalData.matKhau}</p>
                         <p><strong>Giá:</strong> {modalData.gia.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}</p>
                         <p className="text-red-500 mt-4">Hãy đổi mật khẩu tài khoản sau khi giao dịch.</p>
-                        <button
-                            className="mt-4 bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600"
-                            onClick={closeModal}  // Đóng modal và quay lại trang chủ
-                        >
-                            Đóng
-                        </button>
+                        <div className="flex justify-between mt-4">
+                            <button
+                                className="bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600"
+                                onClick={closeModal}  // Đóng modal và quay lại trang chủ
+                            >
+                                Đóng
+                            </button>
+                            <a 
+                                href="https://sso.garena.com/universal/login?app_id=10100&redirect_uri=https%3A%2F%2Faccount.garena.com%2F&locale=vi-VN"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="bg-green-500 text-white py-2 px-6 rounded-lg hover:bg-green-600"
+                            >
+                                Đổi mật khẩu
+                            </a>
+                        </div>
                     </div>
                 </div>
             )}

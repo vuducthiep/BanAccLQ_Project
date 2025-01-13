@@ -5,20 +5,25 @@ const AccDetail = () => {
     const { id } = useParams();
     const [accDetails, setAccDetails] = useState(null);
     const [notification, setNotification] = useState("");
-    const [comments, setComments] = useState([]); // Thêm state cho comments
-    const [loadingComments, setLoadingComments] = useState(true); // Thêm state cho loading
-    const [newComment, setNewComment] = useState(""); // Thêm state cho bình luận mới
+    const [comments, setComments] = useState([]);
+    const [loadingComments, setLoadingComments] = useState(true);
+    const [newComment, setNewComment] = useState("");
+    const [anhAccList, setAnhAccList] = useState([]); // Thêm state cho danh sách ảnh
 
     const navigate = useNavigate();
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        fetch(`http://localhost:8080/api/accgame/${id}`)
+        fetch(`http://localhost:8080/api/accgame/acc-detail/${id}`)
             .then((response) => response.json())
             .then((data) => setAccDetails(data))
             .catch((error) => console.error("Error fetching details:", error));
+        
+        fetch(`http://localhost:8080/api/accgame/${id}/images`)
+            .then((response) => response.json())
+            .then((data) => setAnhAccList(data))
+            .catch((error) => console.error("Error fetching images:", error));
 
-        // Fetch bình luận cho accgame với id
         fetch(`http://localhost:8080/api/binhluan/accgame/${id}`)
             .then((response) => response.json())
             .then((data) => {
@@ -33,6 +38,11 @@ const AccDetail = () => {
 
     const handleFavoriteClick = (accId) => {
         const idNguoiDung = localStorage.getItem('userId');
+        if (!idNguoiDung) {
+            setNotification("Vui lòng đăng nhập để thêm vào yêu thích!");
+            setTimeout(() => setNotification(""), 3000);
+            return;
+        }
 
         fetch("http://localhost:8080/api/yeuthich", {
             method: "POST",
@@ -67,6 +77,12 @@ const AccDetail = () => {
     };
 
     const handleBuyNow = () => {
+        const idNguoiDung = localStorage.getItem('userId');
+        if (!idNguoiDung) {
+            setNotification("Vui lòng đăng nhập để mua tài khoản!");
+            setTimeout(() => setNotification(""), 3000);
+            return;
+        }
         navigate(`/thanhtoan/${id}`);
     };
 
@@ -75,7 +91,18 @@ const AccDetail = () => {
     }
 
     const handleAddComment = () => {
-        const idNguoiDung = localStorage.getItem('userId'); // Lấy id người dùng từ localStorage
+        const idNguoiDung = localStorage.getItem('userId');
+        if (!idNguoiDung) {
+            setNotification("Vui lòng đăng nhập để bình luận!");
+            setTimeout(() => setNotification(""), 3000);
+            return;
+        }
+
+        if (!newComment.trim()) {
+            setNotification("Vui lòng nhập nội dung bình luận!");
+            setTimeout(() => setNotification(""), 3000);
+            return;
+        }
         
         fetch("http://localhost:8080/api/binhluan/add", {
             method: "POST",
@@ -85,17 +112,14 @@ const AccDetail = () => {
             body: JSON.stringify({
                 idAccGame: id,
                 idNguoiDung: idNguoiDung,
-                noiDung: newComment, // Gửi nội dung bình luận mới
+                noiDung: newComment,
             }),
         })
-            .then((response) => response.text()) // Chuyển đổi phản hồi thành text (success message)
+            .then((response) => response.text())
             .then((data) => {
                 if (data === "success") {
-                    setNewComment(""); // Reset giá trị input
-                    
-                    // Fetch lại danh sách bình luận mới từ server
+                    setNewComment("");
                     fetchComments();
-                    
                     setNotification("Đã thêm bình luận");
                     setTimeout(() => setNotification(""), 3000);
                 } else {
@@ -109,23 +133,20 @@ const AccDetail = () => {
             });
     };
     
-    // Hàm fetch bình luận
     const fetchComments = () => {
-        setLoadingComments(true); // Đánh dấu đang tải bình luận mới
+        setLoadingComments(true);
     
         fetch(`http://localhost:8080/api/binhluan/accgame/${id}`)
             .then((response) => response.json())
             .then((data) => {
-                setComments(data); // Cập nhật danh sách bình luận mới
-                setLoadingComments(false); // Kết thúc trạng thái loading
+                setComments(data);
+                setLoadingComments(false);
             })
             .catch((error) => {
                 console.error("Error fetching comments:", error);
-                setLoadingComments(false); // Kết thúc trạng thái loading
+                setLoadingComments(false);
             });
     };
-    
-    
 
     return (
         <div className="container mx-auto p-4">
@@ -206,22 +227,28 @@ const AccDetail = () => {
                 </div>
             </div>
 
+            {/* Phần hiển thị ảnh chi tiết tài khoản */}
             <div className="mt-6 bg-slate-200">
                 <h3 className="text-2xl text-center font-semibold mb-4">Ảnh chi tiết tài khoản</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {accDetails.anhAccList && accDetails.anhAccList.map((anh) => (
-                        <div key={anh.id} className="flex justify-center">
-                            <img
-                                src={anh.urlAnh}
-                                alt={anh.moTa || "Ảnh chi tiết"}
-                                className="w-full h-auto transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl hover:rounded-lg rounded-lg"
-                                style={{ width: '600px', height: '400px', objectFit: 'cover' }}
-                            />
-                        </div>
-                    ))}
+                    {anhAccList.length > 0 ? (
+                        anhAccList.map((anh) => (
+                            <div key={anh.id} className="flex justify-center">
+                                <img
+                                    src={anh.urlAnh}
+                                    alt={anh.moTa || "Ảnh chi tiết không có mô tả"}
+                                    className="w-full h-auto transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl hover:rounded-lg rounded-lg"
+                                    style={{ width: '600px', height: '400px', objectFit: 'cover' }}
+                                />
+                            </div>
+                        ))
+                    ) : (
+                        <p className="text-center text-gray-500">Chưa có ảnh chi tiết nào.</p>
+                    )}
                 </div>
             </div>
 
+            {/* Button mua ngay và yêu thích */}
             <div className="flex justify-center gap-4 mt-6">
                 <button 
                     className="bg-blue-500 text-white px-4 py-2 rounded flex items-center hover:bg-blue-600 transition-colors"
@@ -280,14 +307,14 @@ const AccDetail = () => {
 
                 <div className="mt-6">
                     <textarea 
-                        value={newComment} // (cmt) Bind giá trị mới từ state
-                        onChange={(e) => setNewComment(e.target.value)} // (cmt) Cập nhật giá trị mới khi thay đổi
+                        value={newComment}
+                        onChange={(e) => setNewComment(e.target.value)}
                         rows="4"
                         className="w-full p-2 border border-gray-300 rounded-lg"
                         placeholder="Viết bình luận của bạn..."
                     />
                     <button 
-                        onClick={handleAddComment} // (cmt) Gọi hàm thêm bình luận khi bấm nút
+                        onClick={handleAddComment}
                         className="mt-2 bg-blue-500 text-white px-4 py-2 rounded-lg"
                     >
                         Thêm bình luận

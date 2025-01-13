@@ -5,6 +5,8 @@ import com.BanAccLQ.BanAccLQ.model.AccGame;
 import com.BanAccLQ.BanAccLQ.model.AnhAcc;
 import com.BanAccLQ.BanAccLQ.repository.AccGameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,8 +26,8 @@ public class AccGameService {
         return accGameRepository.findById(id);
     }
 
-    public List<AccGame> getAvailableAccGames() {
-        return accGameRepository.findByTrangThai(AccGame.TrangThai.chuaBan);
+    public Page<AccGame> getAccGamesByTrangThai(AccGame.TrangThai trangThai, Pageable pageable) {
+        return accGameRepository.findByTrangThai(trangThai, pageable);
     }
 
     public List<TopAccGameDTO> getTopAccGames() {
