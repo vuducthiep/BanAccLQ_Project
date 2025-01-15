@@ -15,7 +15,7 @@ const AccYeuThich = () => {
         const idNguoiDung = localStorage.getItem("userId");
 
         // Thay URL bằng endpoint API thực tế của bạn để lấy danh sách tài khoản yêu thích của người dùng
-        fetch(`http://localhost:8080/api/yeuthich/user/${idNguoiDung}`)
+        fetch(`http://localhost:8080/api/nguoidung/favorites/${idNguoiDung}`)
             .then((response) => response.json())
             .then((data) => setAccGames(data))
             .catch((error) => console.error("Error fetching data:", error));

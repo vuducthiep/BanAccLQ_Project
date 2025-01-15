@@ -1,6 +1,6 @@
 package com.BanAccLQ.BanAccLQ.DTO;
 
-public class ListAccHomePageDTO {
+public class AccContainerDTO {
     private Integer id;
     private String tenAcc;
     private String rankAcc;
@@ -10,7 +10,7 @@ public class ListAccHomePageDTO {
     private String hinhAnhDaiDien; // Thêm thuộc tính hình ảnh đại diện
 
     // Constructor
-    public ListAccHomePageDTO(Integer id, String tenAcc, String rankAcc, Integer soLuongTuong, Integer soLuongTrangPhuc, Double gia, String hinhAnhDaiDien) {
+    public AccContainerDTO(Integer id, String tenAcc, String rankAcc, Integer soLuongTuong, Integer soLuongTrangPhuc, Double gia, String hinhAnhDaiDien) {
         this.id = id;
         this.tenAcc = tenAcc;
         this.rankAcc = rankAcc;

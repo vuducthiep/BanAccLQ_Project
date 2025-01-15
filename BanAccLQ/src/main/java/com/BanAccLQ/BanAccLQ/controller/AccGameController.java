@@ -1,7 +1,7 @@
 package com.BanAccLQ.BanAccLQ.controller;
 
 import com.BanAccLQ.BanAccLQ.DTO.AccDetailDTO;
-import com.BanAccLQ.BanAccLQ.DTO.ListAccHomePageDTO;
+import com.BanAccLQ.BanAccLQ.DTO.AccContainerDTO;
 import com.BanAccLQ.BanAccLQ.DTO.TopAccGameDTO;
 import com.BanAccLQ.BanAccLQ.exception.ResourceNotFoundException;
 import com.BanAccLQ.BanAccLQ.model.AccGame;
@@ -70,14 +70,14 @@ public class AccGameController {
 
 
     @GetMapping("/listAccHomePage")
-    public List<ListAccHomePageDTO> getAvailableAccGames(
+    public List<AccContainerDTO> getAvailableAccGames(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "16") int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<AccGame> accGamesPage = accGameService.getAccGamesByTrangThai(AccGame.TrangThai.chuaBan, pageable);
 
         return accGamesPage.stream()
-                .map(accGame -> new ListAccHomePageDTO(
+                .map(accGame -> new AccContainerDTO(
                         accGame.getId(),
                         accGame.getTenAcc(),
                         accGame.getRankAcc(),

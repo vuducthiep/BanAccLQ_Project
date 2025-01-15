@@ -114,5 +114,10 @@ public class NguoiDungController {
         }
     }
 
+    @GetMapping("/favorites/{id}")
+    public List<AccContainerDTO> getFavoriteGames(@PathVariable Integer id) {
+        return nguoiDungService.getFavoriteGames(id);
+    }
+
 
 }

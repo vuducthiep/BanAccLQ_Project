@@ -1,8 +1,9 @@
 package com.BanAccLQ.BanAccLQ.controller;
 
+import com.BanAccLQ.BanAccLQ.DTO.AccContainerDTO;
 import com.BanAccLQ.BanAccLQ.model.AccGame;
 import com.BanAccLQ.BanAccLQ.service.AccYeuThichService;
-import com.BanAccLQ.BanAccLQ.DTO.AccYeuThichDTO;
+import com.BanAccLQ.BanAccLQ.DTO.AccYeuThichRequestDTO;
 import com.BanAccLQ.BanAccLQ.service.NguoiDungService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class AccYeuThichController {
 
     // API thêm tài khoản vào danh sách yêu thích
     @PostMapping
-    public ResponseEntity<?> addAccYeuThich(@RequestBody AccYeuThichDTO accYeuThichDTO) {
+    public ResponseEntity<?> addAccYeuThich(@RequestBody AccYeuThichRequestDTO accYeuThichDTO) {
         try {
             // Thêm tài khoản yêu thích
             accYeuThichService.addAccYeuThich(accYeuThichDTO.getIdNguoiDung(), accYeuThichDTO.getIdAccGame());
@@ -35,7 +36,7 @@ public class AccYeuThichController {
 
     // API xóa tài khoản khỏi danh sách yêu thích
     @DeleteMapping
-    public ResponseEntity<?> removeAccYeuThich(@RequestBody AccYeuThichDTO accYeuThichDTO) {
+    public ResponseEntity<?> removeAccYeuThich(@RequestBody AccYeuThichRequestDTO accYeuThichDTO) {
         try {
             // Xóa tài khoản yêu thích
             accYeuThichService.removeAccYeuThich(accYeuThichDTO.getIdNguoiDung(), accYeuThichDTO.getIdAccGame());
@@ -45,8 +46,4 @@ public class AccYeuThichController {
         }
     }
 
-    @GetMapping("/user/{id}")
-    public List<AccGame> getFavoriteGames(@PathVariable Integer id) {
-        return nguoiDungService.getFavoriteGames(id);
-    }
 }

@@ -1,5 +1,6 @@
 package com.BanAccLQ.BanAccLQ.service;
 
+import com.BanAccLQ.BanAccLQ.DTO.AccContainerDTO;
 import com.BanAccLQ.BanAccLQ.DTO.NapTienDTO;
 import com.BanAccLQ.BanAccLQ.DTO.TopNguoiDungDTO;
 import com.BanAccLQ.BanAccLQ.DTO.UpdateNguoiDungDTO_NguoiDung;
@@ -78,6 +79,24 @@ public class NguoiDungService {
     }
 
 
+    public List<AccContainerDTO> getFavoriteGames(Integer userId) {
+        NguoiDung nguoiDung = getNguoiDungById(userId);
+
+        return accYeuThichRepository.findByNguoiDung(nguoiDung).stream()
+                .map(accYeuThich -> {
+                    var accGame = accYeuThich.getAccGame();
+                        return new AccContainerDTO(
+                            accGame.getId(),
+                            accGame.getTenAcc(),
+                            accGame.getRankAcc(),
+                            accGame.getSoLuongTuong(),
+                            accGame.getSoLuongTrangPhuc(),
+                            accGame.getGia(),
+                            accGame.getHinhAnhDaiDien()
+                        );
+                }).collect(Collectors.toList());
+}
+
     public String napTien(NapTienDTO napTienDTO) {
         Optional<NguoiDung> optionalNguoiDung = nguoiDungRepository.findById(napTienDTO.getId());
 
@@ -93,16 +112,7 @@ public class NguoiDungService {
         return "Nạp tiền thành công";
     }
 
-    // Lấy danh sách tài khoản game yêu thích của người dùng
-    public List<AccGame> getFavoriteGames(Integer userId) {
-        NguoiDung nguoiDung = nguoiDungRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Người dùng không tồn tại"));
 
-        // Lấy danh sách tài khoản game yêu thích của người dùng
-        return accYeuThichRepository.findByNguoiDung(nguoiDung).stream()
-                .map(accYeuThich -> accYeuThich.getAccGame())
-                .collect(Collectors.toList());
-    }
 
     public List<AccGame> getAllAccGamesFromLichSuMua(Integer nguoiDungId) {
         List<LichSuMua> lichSuMuaList = lichSuMuaRepository.findByNguoiDungId(nguoiDungId);

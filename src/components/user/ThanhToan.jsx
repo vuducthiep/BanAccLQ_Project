@@ -15,7 +15,7 @@ const ThanhToan = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
 
-        fetch(`http://localhost:8080/api/accgame/${accId}`)
+        fetch(`http://localhost:8080/api/accgame/acc-detail/${accId}`)
             .then((response) => response.json())
             .then((data) => setAccGame(data))
             .catch((error) => {

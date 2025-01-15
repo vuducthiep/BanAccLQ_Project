@@ -1,6 +1,6 @@
 package com.BanAccLQ.BanAccLQ.DTO;
 
-public class AccYeuThichDTO {
+public class AccYeuThichRequestDTO {
     private Integer idNguoiDung;
     private Integer idAccGame;
 
