@@ -54,7 +54,7 @@ function App() {
         {/* Tìm kiếm */}
         <Route path="/search" element={<HeaderFooterLayout><Search /></HeaderFooterLayout>} />
 
-        <Route path="/admin/*" element={<AdminLayout />} />
+        <Route path="admin/*" element={<AdminLayout />} />
 
       </Routes>
     </Router>
