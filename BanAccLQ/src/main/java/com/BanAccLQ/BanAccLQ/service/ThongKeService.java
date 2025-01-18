@@ -1,6 +1,7 @@
 package com.BanAccLQ.BanAccLQ.service;
 
 import com.BanAccLQ.BanAccLQ.DTO.ThongKeDTO;
+import com.BanAccLQ.BanAccLQ.DTO.ThongKeNguoiDungDTO;
 import com.BanAccLQ.BanAccLQ.repository.ThongKeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,5 +15,9 @@ public class ThongKeService {
 
     public List<ThongKeDTO> getThongKeTheoThang() {
         return thongKeRepository.thongKeTheoThang();
+    }
+
+    public List<ThongKeNguoiDungDTO> getThongKeNguoiDungTheoThang() {
+        return thongKeRepository.thongKeNguoiDungTheoThang();
     }
 } 
