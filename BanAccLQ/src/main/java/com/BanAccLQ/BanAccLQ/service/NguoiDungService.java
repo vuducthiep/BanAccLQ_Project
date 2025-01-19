@@ -113,7 +113,6 @@ public class NguoiDungService {
     }
 
 
-
     public List<AccGame> getAllAccGamesFromLichSuMua(Integer nguoiDungId) {
         List<LichSuMua> lichSuMuaList = lichSuMuaRepository.findByNguoiDungId(nguoiDungId);
         List<AccGame> accGames = new ArrayList<>();

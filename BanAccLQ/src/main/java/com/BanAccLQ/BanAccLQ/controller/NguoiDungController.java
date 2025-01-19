@@ -81,7 +81,7 @@ public class NguoiDungController {
 
 
 
-    // Các API khác
+    Các API khác
     @PostMapping("/nap-tien")
     public ResponseEntity<String> napTien(@RequestBody NapTienDTO napTienDTO) {
         String result = nguoiDungService.napTien(napTienDTO);
