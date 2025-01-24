@@ -153,7 +153,6 @@ public class NguoiDungService {
         nguoiDung.setMatKhau(hashedPassword);
         nguoiDung.setSoDienThoai(updateNguoiDungDTO.getSoDienThoai());
 
-        // Lưu thông tin người dùng đã cập nhật
         return nguoiDungRepository.save(nguoiDung);
     }
 
