@@ -4,7 +4,6 @@ import SideBar from './SideBar';
 import Dashboard from './Dashboard';
 import QuanLyNguoiDung from './QuanLyNguoiDung';
 
-// Tạo các component tạm thời cho admin
 const AccountManager = () => <div>Quản Lý Tài Khoản Game</div>;
 const TransactionManager = () => <div>Quản Lý Giao Dịch</div>;
 

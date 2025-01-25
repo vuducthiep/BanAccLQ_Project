@@ -11,10 +11,10 @@ public class TrangPhuc {
     private Integer id;
 
     @Column(nullable = false)
-    private String tenTrangPhuc; // Tên trang phục
+    private String tenTrangPhuc; 
 
     @Column(nullable = false)
-    private String loaiTrangPhuc; // Loại trang phục (ví dụ: áo, giày...)
+    private String loaiTrangPhuc; 
 
 
     // Getters và Setters

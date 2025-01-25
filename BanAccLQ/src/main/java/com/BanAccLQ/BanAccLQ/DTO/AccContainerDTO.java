@@ -7,7 +7,7 @@ public class AccContainerDTO {
     private Integer soLuongTuong;
     private Integer soLuongTrangPhuc;
     private Double gia;
-    private String hinhAnhDaiDien; // Thêm thuộc tính hình ảnh đại diện
+    private String hinhAnhDaiDien; 
 
     // Constructor
     public AccContainerDTO(Integer id, String tenAcc, String rankAcc, Integer soLuongTuong, Integer soLuongTrangPhuc, Double gia, String hinhAnhDaiDien) {
