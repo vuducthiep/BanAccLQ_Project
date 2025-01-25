@@ -12,9 +12,9 @@ public class AccDetailDTO {
     private Integer soLuongTrangPhucSS;
     private Integer soLuongTrangPhucSSS;
     private Double gia;
-    private String loaiAccGame;  // Loại tài khoản
-    private String trangThai;    // Trạng thái
-    private String hinhAnhDaiDien; // Hình ảnh đại diện
+    private String loaiAccGame;  
+    private String trangThai;    
+    private String hinhAnhDaiDien; 
 
     // Getters và Setters
     public Integer getId() {
