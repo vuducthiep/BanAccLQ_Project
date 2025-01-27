@@ -17,9 +17,9 @@ const ListAcc = () => {
                 setAccGames(data);
                 if (data.length === 0) {
                     // Nếu trang hiện tại không có dữ liệu, không cho phép chuyển sang trang tiếp theo
-                    setTotalPages(page); // Sử dụng trang hiện tại là trang cuối cùng có dữ liệu
+                    setTotalPages(page); 
                 } else {
-                    setTotalPages(10); // Cập nhật lại tổng số trang (hoặc tính từ backend)
+                    setTotalPages(10); 
                 }
             } else {
                 console.error("Dữ liệu không đúng định dạng:", data);
@@ -30,13 +30,6 @@ const ListAcc = () => {
             setAccGames([]);
         }
     };
-
-
-
-
-
-
-
 
     useEffect(() => {
         fetchAccGames(currentPage);
