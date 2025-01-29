@@ -16,7 +16,7 @@ const ListAcc = () => {
             if (Array.isArray(data)) {
                 setAccGames(data);
                 if (data.length === 0) {
-                    // Nếu trang hiện tại không có dữ liệu, không cho phép chuyển sang trang tiếp theo
+                    // Nếu trang hiện tại không có dữ liệu, khôngg cho phép chuyển sang trang tiếp theo
                     setTotalPages(page); 
                 } else {
                     setTotalPages(10); 
