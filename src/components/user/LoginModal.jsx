@@ -20,7 +20,7 @@ function LoginModal({ onClose }) {
         }));
     };
 
-    // Function to handle registrationnn
+    // Function to handle registration
     const handleRegister = async () => {
         const payload = {
             ten: formData.ten,
