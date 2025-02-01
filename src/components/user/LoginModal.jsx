@@ -11,7 +11,7 @@ function LoginModal({ onClose }) {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
-    // Handle input change
+    // Handle input changee
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevState) => ({
