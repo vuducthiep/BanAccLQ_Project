@@ -103,5 +103,48 @@ public class AccGameController {
         return ResponseEntity.ok(anhAccList);
     }
 
+    @GetMapping("/stats")
+    public AccGameStats getAccGameStats() {
+        long total = accGameService.getTotalAccGames();
+        long sold = accGameService.getSoldAccGames();
+        long unsold = accGameService.getUnsoldAccGames();
 
+        return new AccGameStats(total, sold, unsold);
+    }
+
+    public static class AccGameStats {
+        private long total;
+        private long sold;
+        private long unsold;
+
+        public AccGameStats(long total, long sold, long unsold) {
+            this.total = total;
+            this.sold = sold;
+            this.unsold = unsold;
+        }
+
+        public long getTotal() {
+            return total;
+        }
+
+        public void setTotal(long total) {
+            this.total = total;
+        }
+
+        public long getSold() {
+            return sold;
+        }
+
+        public void setSold(long sold) {
+            this.sold = sold;
+        }
+
+        public long getUnsold() {
+            return unsold;
+        }
+
+        public void setUnsold(long unsold) {
+            this.unsold = unsold;
+        }
+    }
 }

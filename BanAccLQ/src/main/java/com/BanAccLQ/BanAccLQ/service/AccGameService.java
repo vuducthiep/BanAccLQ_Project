@@ -40,8 +40,15 @@ public class AccGameService {
         return accGame.map(AccGame::getAnhAccList).orElse(List.of());
     }
 
+    public long getTotalAccGames() {
+        return accGameRepository.countAllAccGames();
+    }
 
+    public long getSoldAccGames() {
+        return accGameRepository.countSoldAccGames();
+    }
 
-
-
+    public long getUnsoldAccGames() {
+        return accGameRepository.countUnsoldAccGames();
+    }
 }

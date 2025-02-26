@@ -20,5 +20,12 @@ public interface AccGameRepository extends JpaRepository<AccGame, Integer> {
             "ORDER BY COUNT(ay.id) DESC")
     List<TopAccGameDTO> findTopAccGameByYeuThich();
 
+    @Query("SELECT COUNT(a) FROM AccGame a")
+    long countAllAccGames();
 
+    @Query("SELECT COUNT(a) FROM AccGame a WHERE a.trangThai = com.BanAccLQ.BanAccLQ.model.AccGame.TrangThai.daBan")
+    long countSoldAccGames();
+
+    @Query("SELECT COUNT(a) FROM AccGame a WHERE a.trangThai = com.BanAccLQ.BanAccLQ.model.AccGame.TrangThai.chuaBan")
+    long countUnsoldAccGames();
 }
